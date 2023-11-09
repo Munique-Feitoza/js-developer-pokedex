@@ -5,7 +5,13 @@ function convertPokeApiDetailToPokemon(pokeDetail) {
     const pokemon = new Pokemon()
     pokemon.number = pokeDetail.id
     pokemon.name = pokeDetail.name
-
+    
+    if(pokeDetail.id < 10) {
+      pokemon.number = `00${pokeDetail.id}`;
+    } else if(pokeDetail.id >= 10 && pokeDetail.id < 100) {
+      pokemon.number = `0${pokeDetail.id}`;
+    }
+    
     const types = pokeDetail.types.map((typeSlot) => typeSlot.type.name)
     const [type] = types
 
@@ -33,3 +39,4 @@ pokeApi.getPokemons = (offset = 0, limit = 5) => {
         .then((detailRequests) => Promise.all(detailRequests))
         .then((pokemonsDetails) => pokemonsDetails)
 }
+
